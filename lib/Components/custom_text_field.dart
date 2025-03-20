@@ -22,7 +22,7 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(17)),
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       ),
     );
