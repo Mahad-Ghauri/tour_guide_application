@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tour_guide_application/Authentication/auth_controller.dart';
 import 'package:tour_guide_application/Screens/login_screen.dart';
 import 'package:tour_guide_application/Components/custom_text_field.dart';
 import '../controllers/input_controllers.dart';
@@ -12,12 +13,33 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final InputControllers inputController = InputControllers();
-
   final _formKey = GlobalKey<FormState>();
+  final InputControllers inputController = InputControllers();
+  final AuthenticationController _authController = AuthenticationController();
+
+  @override
+  void dispose() {
+    inputController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    if (_formKey.currentState!.validate()) {
+      await _authController
+          .signInWithEmailPassword(
+            inputController.emailController.text,
+            inputController.passwordController.text,
+          )
+          .then((_) {
+            Navigator.of(context).pushReplacement(_elegantRoute(LoginScreen()));
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -102,6 +124,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
     );
   }
 }

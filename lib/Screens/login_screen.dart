@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tour_guide_application/Authentication/auth_controller.dart';
+import 'package:tour_guide_application/Components/auth_button.dart';
 import 'package:tour_guide_application/Interface/interface.dart';
 import 'package:tour_guide_application/Screens/signup_screen.dart';
 import 'package:tour_guide_application/Components/custom_text_field.dart';
@@ -102,13 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   //   child: Text("Sign In"),
                   // ),
                   AuthButton(onPressed: _handleLogin, text: "Log In"),
-                  SizedBox(height: 10),
+                  SizedBox(height: height * 0.02),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpScreen()),
-                      );
+                      Navigator.push(context, _elegantRoute(SignUpScreen()));
                     },
                     child: Text("Don't have an account? Sign Up"),
                   ),
