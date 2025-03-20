@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:tour_guide_application/Authentication/auth_controller.dart';
 import 'package:tour_guide_application/Components/auth_button.dart';
@@ -44,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
@@ -94,14 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     if (_formKey.currentState!.validate()) {
-                  //       // Perform login action
-                  //     }
-                  //   },
-                  //   child: Text("Sign In"),
-                  // ),
+
                   AuthButton(onPressed: _handleLogin, text: "Log In"),
                   SizedBox(height: height * 0.02),
                   TextButton(

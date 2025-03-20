@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:tour_guide_application/Authentication/auth_controller.dart';
+import 'package:tour_guide_application/Components/auth_button.dart';
+import 'package:tour_guide_application/Interface/interface.dart';
 import 'package:tour_guide_application/Screens/login_screen.dart';
 import 'package:tour_guide_application/Components/custom_text_field.dart';
 import '../controllers/input_controllers.dart';
@@ -23,15 +27,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleSignUp() async {
     if (_formKey.currentState!.validate()) {
+      if (inputController.passwordController.text !=
+          inputController.confirmPasswordController.text) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+        return;
+      }
       await _authController
-          .signInWithEmailPassword(
+          .signUpWithEmailPassword(
             inputController.emailController.text,
             inputController.passwordController.text,
+            context,
           )
           .then((_) {
-            Navigator.of(context).pushReplacement(_elegantRoute(LoginScreen()));
+            Navigator.of(
+              context,
+            ).pushReplacement(_elegantRoute(LoginScreen()));
           });
     }
   }
@@ -39,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -100,15 +114,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Perform sign-up action
-                      }
-                    },
-                    child: Text("Sign Up"),
-                  ),
+                  SizedBox(height: height * 0.02),
+                  AuthButton(onPressed: _handleSignUp, text: "Log In"),
+                  SizedBox(height: height * 0.02),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
